@@ -1,0 +1,9 @@
+.blog-container {
+    max-width: 600px;
+    margin: 20px auto;
+}
+  
+.blog-container h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
