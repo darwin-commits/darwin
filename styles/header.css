@@ -13,12 +13,13 @@ header {
 }
   
 .home:hover {
-    color: inherit; /* Prevent color change on hover */
+    color: inherit;
 }
   
 .home h1 {
     font-size: 1.5rem;
     font-weight: bold;
+    color: #333;
 }
   
 nav {
