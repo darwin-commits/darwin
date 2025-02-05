@@ -1,5 +1,10 @@
 import "../styles/footer.css";
 
 export default function Footer() {
-    return <footer> Darwin Footer </footer>;
-  }
+  const currentYear = new Date().getFullYear();
+  return (
+    <footer>
+      <p> &copy; {currentYear} Darwin Kolisi. All rights reserved.</p>
+    </footer>
+  );
+}
