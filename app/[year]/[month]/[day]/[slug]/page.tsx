@@ -20,7 +20,7 @@ export default async function BlogPost({ params }: Props) {
   const { year, month, day, slug } = params;
 
   // Fetch post
-  const post = getPostBySlug(year, month, day, slug);
+  const post = await getPostBySlug(year, month, day, slug);
   if (!post) return notFound();
 
   // Process Markdown content to HTML
