@@ -5,9 +5,18 @@ import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
 import "../../../../../styles/post.css"
 
-export default async function BlogPost({ params }: { params: { year: string; month: string; day: string; slug: string } }) {
-  // Extract and await params
-  const { year, month, day, slug } = await Promise.resolve(params);
+interface PageParams {
+  params: {
+    year: string;
+    month: string;
+    day: string;
+    slug: string;
+  }
+}
+
+export default async function BlogPost({ params }: PageParams) {
+  // Extract params (no need to await them)
+  const { year, month, day, slug } = params;
 
   // Fetch post
   const post = getPostBySlug(year, month, day, slug);
