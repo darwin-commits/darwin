@@ -16,7 +16,7 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export default async function BlogPost({ params, searchParams }: Props) {
+export default async function BlogPost({ params }: Props) {
   const { year, month, day, slug } = params;
 
   // Fetch post
