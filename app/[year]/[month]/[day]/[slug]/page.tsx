@@ -3,14 +3,14 @@ import { notFound } from "next/navigation";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
-import "../../../styles/post.css";
+import "../../../../../styles/post.css"
 
-export default async function BlogPost({ params }: { params: { slug: string } }) {
-  // Wait for params.slug to be available before using it
-  const { slug } = await Promise.resolve(params); 
+export default async function BlogPost({ params }: { params: { year: string; month: string; day: string; slug: string } }) {
+  // Extract and await params
+  const { year, month, day, slug } = await Promise.resolve(params);
 
   // Fetch post
-  const post = getPostBySlug(slug);
+  const post = getPostBySlug(year, month, day, slug);
   if (!post) return notFound();
 
   // Process Markdown content to HTML
@@ -19,7 +19,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
     .use(remarkHtml)
     .process(post.content);
 
-  // Format date properly
+  // Format date
   function formatDate(dateString: string) {
     const options: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" };
     return new Date(dateString).toLocaleDateString("en-US", options);
