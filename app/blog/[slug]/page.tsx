@@ -6,9 +6,14 @@ import remarkHtml from "remark-html";
 import "../../../styles/post.css";
 
 export default async function BlogPost({ params }: { params: { slug: string } }) {
-  const post = getPostBySlug(params.slug);
+  // Wait for params.slug to be available before using it
+  const { slug } = await Promise.resolve(params); 
+
+  // Fetch post
+  const post = getPostBySlug(slug);
   if (!post) return notFound();
 
+  // Process Markdown content to HTML
   const processedContent = await unified()
     .use(remarkParse)
     .use(remarkHtml)
@@ -17,8 +22,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
   // Format date properly
   function formatDate(dateString: string) {
     const options: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" };
-    const formattedDate = new Date(dateString).toLocaleDateString("en-US", options);
-    return formattedDate.replace(/\b(\d{1,2})\b/, "$1th"); // Adds "th" to day
+    return new Date(dateString).toLocaleDateString("en-US", options);
   }
 
   return (
