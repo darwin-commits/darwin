@@ -3,19 +3,20 @@ import { notFound } from "next/navigation";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
-import "../../../../../styles/post.css"
+import "../../../../../styles/post.css";
 
-interface PageParams {
+// Use Next.js specific types
+type Props = {
   params: {
     year: string;
     month: string;
     day: string;
     slug: string;
-  }
-}
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-export default async function BlogPost({ params }: PageParams) {
-  // Extract params (no need to await them)
+export default async function BlogPost({ params, searchParams }: Props) {
   const { year, month, day, slug } = params;
 
   // Fetch post
