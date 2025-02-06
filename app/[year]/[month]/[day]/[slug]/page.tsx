@@ -3,24 +3,14 @@ import { notFound } from "next/navigation";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
-import "../../../../../styles/post.css";
+import "../../../../../styles/post.css"
 
-// Use Next.js specific types
-interface PageProps {
-  params: Awaited<{
-    year: string;
-    month: string;
-    day: string;
-    slug: string;
-  }>;
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-
-export default async function BlogPost({ params }: PageProps) {
-  const { year, month, day, slug } = params;
+export default async function BlogPost({ params }: { params: { year: string; month: string; day: string; slug: string } }) {
+  // Extract and await params
+  const { year, month, day, slug } = await Promise.resolve(params);
 
   // Fetch post
-  const post = await getPostBySlug(year, month, day, slug);
+  const post = getPostBySlug(year, month, day, slug);
   if (!post) return notFound();
 
   // Process Markdown content to HTML
