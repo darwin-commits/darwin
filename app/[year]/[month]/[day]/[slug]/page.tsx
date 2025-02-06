@@ -5,8 +5,6 @@ import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
 import "../../../../../styles/post.css"
 
-import { use } from "react";
-
 type Params = {
   year: string;
   month: string;
