@@ -7,14 +7,14 @@ import "../../../../../styles/post.css";
 
 // Use Next.js specific types
 interface PageProps {
-  params: {
+  params: Awaited<{
     year: string;
     month: string;
     day: string;
     slug: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+  }>;
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
 
 export default async function BlogPost({ params }: PageProps) {
   const { year, month, day, slug } = params;
