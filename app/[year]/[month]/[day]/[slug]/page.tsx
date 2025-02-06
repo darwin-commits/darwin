@@ -5,16 +5,9 @@ import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
 import "../../../../../styles/post.css"
 
-type Params = {
-  params: {
-    year: string;
-    month: string;
-    day: string;
-    slug: string;
-  };
-};
+import { PageProps } from "next"; // Ensure Next.js types are properly imported
 
-export default async function BlogPost({ params }: Params) {
+export default async function BlogPost({ params }: { params: { year: string; month: string; day: string; slug: string } }) {
   const post = getPostBySlug(params.year, params.month, params.day, params.slug);
   if (!post) return notFound();
 
