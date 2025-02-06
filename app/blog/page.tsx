@@ -2,15 +2,10 @@ import Link from "next/link";
 import { getAllPosts } from "@/lib/getPosts";
 import "../../styles/blog.css";
 
-import { diagnosePostIssues } from "@/lib/blogDiagnostics";
-
 export default function BlogPage() {
   const posts = getAllPosts().sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
-  const issues = diagnosePostIssues();
-
-  // console.log("Diagnostic results:", issues);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

@@ -5,12 +5,23 @@ import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
 import "../../../../../styles/post.css"
 
-export default async function BlogPost({ params }: { params: { year: string; month: string; day: string; slug: string } }) {
-  // Extract and await params
-  const { year, month, day, slug } = await Promise.resolve(params);
+type Params = {
+  year: string;
+  month: string;
+  day: string;
+  slug: string;
+};
 
-  // Fetch post
-  const post = getPostBySlug(year, month, day, slug);
+export default async function BlogPost({ params }: { params: Promise<Params> }) {
+  const resolvedParams = await params; // Unwrap the Promise
+
+  const post = getPostBySlug(
+    resolvedParams.year,
+    resolvedParams.month,
+    resolvedParams.day,
+    resolvedParams.slug
+  );
+
   if (!post) return notFound();
 
   // Process Markdown content to HTML
@@ -25,11 +36,11 @@ export default async function BlogPost({ params }: { params: { year: string; mon
     return new Date(dateString).toLocaleDateString("en-US", options);
   }
 
-  return (
-    <div className="post-container">
-      <h1 className="post-title">{post.data.title}</h1>
-      <p className="post-date">Darwin • {formatDate(post.data.date)}</p>
-      <div className="post-content" dangerouslySetInnerHTML={{ __html: processedContent.toString() }} />
+    return (
+      <div className="post-container">
+        <h1 className="post-title">{post.data.title}</h1>
+        <p className="post-date">Darwin • {formatDate(post.data.date)}</p>
+        <div className="post-content" dangerouslySetInnerHTML={{ __html: processedContent.toString() }} />
     </div>
   );
 }
