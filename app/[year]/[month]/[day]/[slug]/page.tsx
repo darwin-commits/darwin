@@ -5,6 +5,8 @@ import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
 import "../../../../../styles/post.css"
 
+import { use } from "react";
+
 type Params = {
   year: string;
   month: string;
@@ -12,11 +14,15 @@ type Params = {
   slug: string;
 };
 
-export default async function BlogPost(props: { params: Params }) {
-  const { params } = props; // Ensuring params is treated as a direct object
+export default async function BlogPost({ params }: { params: Promise<Params> }) {
+  const resolvedParams = await params; // Unwrap the Promise
 
-  // If getPostBySlug is async, make sure to await it
-  const post = getPostBySlug(params.year, params.month, params.day, params.slug);
+  const post = getPostBySlug(
+    resolvedParams.year,
+    resolvedParams.month,
+    resolvedParams.day,
+    resolvedParams.slug
+  );
 
   if (!post) return notFound();
 
