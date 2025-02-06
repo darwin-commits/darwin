@@ -16,7 +16,7 @@ export default async function BlogPost(props: { params: Params }) {
   const { params } = props; // Ensuring params is treated as a direct object
 
   // If getPostBySlug is async, make sure to await it
-  const post = await getPostBySlug(params.year, params.month, params.day, params.slug);
+  const post = getPostBySlug(params.year, params.month, params.day, params.slug);
 
   if (!post) return notFound();
 
