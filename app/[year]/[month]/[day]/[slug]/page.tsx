@@ -6,7 +6,7 @@ import remarkHtml from "remark-html";
 import "../../../../../styles/post.css";
 
 // Use Next.js specific types
-type Props = {
+interface PageProps {
   params: {
     year: string;
     month: string;
@@ -16,7 +16,7 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export default async function BlogPost({ params }: Awaited<Props>) {
+export default async function BlogPost({ params }: PageProps) {
   const { year, month, day, slug } = params;
 
   // Fetch post
