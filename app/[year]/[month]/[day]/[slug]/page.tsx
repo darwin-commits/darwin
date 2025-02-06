@@ -5,12 +5,17 @@ import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
 import "../../../../../styles/post.css"
 
-export default async function BlogPost({ params }: { params: { year: string; month: string; day: string; slug: string } }) {
-  // Extract and await params
-  const { year, month, day, slug } = await Promise.resolve(params);
+type Params = {
+  params: {
+    year: string;
+    month: string;
+    day: string;
+    slug: string;
+  };
+};
 
-  // Fetch post
-  const post = getPostBySlug(year, month, day, slug);
+export default async function BlogPost({ params }: Params) {
+  const post = getPostBySlug(params.year, params.month, params.day, params.slug);
   if (!post) return notFound();
 
   // Process Markdown content to HTML
