@@ -3,21 +3,20 @@ import { notFound } from "next/navigation";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
-import { Metadata } from "next";
 import "../../../../../styles/post.css";
 
-type BlogPostParams = {
+// Use Next.js specific types
+type Props = {
   params: {
     year: string;
     month: string;
     day: string;
     slug: string;
   };
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export default async function BlogPost({
-  params,
-}: BlogPostParams) {
+export default async function BlogPost({ params }: Awaited<Props>) {
   const { year, month, day, slug } = params;
 
   // Fetch post
@@ -32,11 +31,7 @@ export default async function BlogPost({
 
   // Format date
   function formatDate(dateString: string) {
-    const options: Intl.DateTimeFormatOptions = { 
-      day: "numeric", 
-      month: "long", 
-      year: "numeric" 
-    };
+    const options: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" };
     return new Date(dateString).toLocaleDateString("en-US", options);
   }
 
@@ -44,26 +39,7 @@ export default async function BlogPost({
     <div className="post-container">
       <h1 className="post-title">{post.data.title}</h1>
       <p className="post-date">Darwin • {formatDate(post.data.date)}</p>
-      <div 
-        className="post-content" 
-        dangerouslySetInnerHTML={{ __html: processedContent.toString() }} 
-      />
+      <div className="post-content" dangerouslySetInnerHTML={{ __html: processedContent.toString() }} />
     </div>
   );
-}
-
-export async function generateMetadata({ params }: BlogPostParams): Promise<Metadata> {
-  const { year, month, day, slug } = params;
-  const post = await getPostBySlug(year, month, day, slug);
-
-  if (!post) {
-    return {
-      title: 'Post Not Found',
-    };
-  }
-
-  return {
-    title: post.data.title,
-    description: post.data.description || '',
-  };
 }
